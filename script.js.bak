@@ -1,0 +1,91 @@
+$(document).ready(function() {
+ // executes when HTML-Document is loaded and DOM is ready
+
+// breakpoint and up  
+$(window).resize(function(){
+	if ($(window).width() >= 980){	
+
+      // when you hover a toggle show its dropdown menu
+      $(".navbar .dropdown-toggle").hover(function () {
+         $(this).parent().toggleClass("show");
+         $(this).parent().find(".dropdown-menu").toggleClass("show"); 
+       });
+
+        // hide the menu when the mouse leaves the dropdown
+      $( ".navbar .dropdown-menu" ).mouseleave(function() {
+        $(this).removeClass("show");  
+      });
+  
+		// do something here
+	}	
+});  
+  
+  
+
+// document ready  
+});
+
+// HERO SLIDER
+    var menu = [];
+    jQuery('.swiper-slide').each( function(index){
+        menu.push( jQuery(this).find('.slide-inner').attr("data-text") );
+    });
+    var interleaveOffset = 0.5;
+    var swiperOptions = {
+        loop: true,
+        speed: 1000,
+        parallax: true,
+        autoplay: {
+            delay: 6500,
+            disableOnInteraction: false,
+        },
+        watchSlidesProgress: true,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+
+        on: {
+            progress: function() {
+                var swiper = this;
+                for (var i = 0; i < swiper.slides.length; i++) {
+                    var slideProgress = swiper.slides[i].progress;
+                    var innerOffset = swiper.width * interleaveOffset;
+                    var innerTranslate = slideProgress * innerOffset;
+                    swiper.slides[i].querySelector(".slide-inner").style.transform =
+                    "translate3d(" + innerTranslate + "px, 0, 0)";
+                }      
+            },
+
+            touchStart: function() {
+              var swiper = this;
+              for (var i = 0; i < swiper.slides.length; i++) {
+                swiper.slides[i].style.transition = "";
+              }
+            },
+
+            setTransition: function(speed) {
+                var swiper = this;
+                for (var i = 0; i < swiper.slides.length; i++) {
+                    swiper.slides[i].style.transition = speed + "ms";
+                    swiper.slides[i].querySelector(".slide-inner").style.transition =
+                    speed + "ms";
+                }
+            }
+        }
+    };
+
+    var swiper = new Swiper(".swiper-container", swiperOptions);
+
+    // DATA BACKGROUND IMAGE
+    var sliderBgSetting = $(".slide-bg-image");
+    sliderBgSetting.each(function(indx){
+        if ($(this).attr("data-background")){
+            $(this).css("background-image", "url(" + $(this).data("background") + ")");
+        }
+    });
